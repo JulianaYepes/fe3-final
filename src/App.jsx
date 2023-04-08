@@ -8,13 +8,13 @@ import Favs from "./Routes/Favs";
 import Contact from "./Routes/Contact";
 import { ContextProvider } from "./Components/utils/global.context";
 
+
 function App() {
   return (
     <div className="App">
       <ContextProvider>
         <BrowserRouter>
           <Navbar />
-
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/detail/:id" element={<Detail />} />

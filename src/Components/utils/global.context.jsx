@@ -1,29 +1,61 @@
-import { createContext, useMemo, useState } from "react";
+import {useMemo, createContext, useReducer, useEffect, useContext} from "react";
 
-export const initialState = {theme: "light", data: []}
+export const ContextGlobal = createContext(undefined)
 
-export const ContextGlobal = createContext(initialState);
+export const initialState = { theme:"light", data: []};
+
+export const actions = {
+  setDarkTheme: "setDarkTheme",
+  setLightTheme: "setLightTheme",
+  setData: "setData"
+};
+
+export const reducer = (state, action) => {
+  switch (action.type) {
+    case actions.setData: {
+      return { ...state, data: action.payload };}
+    case actions.setDarkTheme:
+      return { ...state, theme: "dark" };
+    case actions.setLightTheme:
+      return { ...state, theme: "light" };
+    default: {
+      return state;
+    }
+  }
+};
 
 export const ContextProvider = ({ children }) => {
-  //Aqui deberan implementar la logica propia del Context, utilizando el hook useMemo
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const providerState = useMemo(
+    () => ({
+      data: state.data,
+      theme: state.theme,
+      setData: (array) => {
+        dispatch({ type: actions.setData, payload: array });
+      },
+      setDarkTheme: () => {
+        dispatch({ type: actions.setDarkTheme });
+      },
+      setLightTheme: () => {
+        dispatch({ type: actions.setLightTheme });
+      },
+    }),
+    [state, dispatch]
+  );
 
-  const [theme, setTheme] = useState(initialState.theme)
-  const [data, setData] = useState(initialState.data)
-  const anotherData = useMemo(()=>{
-    const getDentists = async() => {
-      const dataFetched = await fetch('https://jsonplaceholder.typicode.com/users')
-      .then((response) => {
-        return response.json()
-      })
-      return(dataFetched)
-    }
-    localStorage.setItem('favoritesDentists', JSON.stringify(data))
-    return {getDentists, theme, data, setTheme, setData}
-  }, [theme, data])
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((data) => providerState.setData(data));
+  }, [providerState]);
 
   return (
-    <ContextGlobal.Provider value={anotherData}>
+    <ContextGlobal.Provider value={providerState}>
       {children}
     </ContextGlobal.Provider>
   );
+  
+};
+export const useContextGlobal = () => {
+  return useContext(ContextGlobal);
 };
