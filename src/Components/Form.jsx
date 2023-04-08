@@ -48,6 +48,7 @@ const Form = () => {
           placeholder="User name"
           value={userName}
           onChange={onChangeUserName}
+          required
         />
 
         <input
@@ -55,6 +56,7 @@ const Form = () => {
           placeholder="User email"
           value={userMail}
           onChange={onChangeUserMail}
+          required
         />
         <input type="submit" value="Send" />
       </form>

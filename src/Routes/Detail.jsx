@@ -29,7 +29,7 @@ const Detail = () => {
             <div className={`card ${isDarkMode ? "dark" : "light"}`}>
 
               <div>
-                <img src="/images/doctor.jpg" alt="dentist placeholder" width="145 px"/>
+                <img src="/images/doctor.jpg" alt="dentist photo" width="145 px"/>
               </div>
 
               <div>

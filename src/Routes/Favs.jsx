@@ -6,7 +6,7 @@ const Favs = () => {
 
   return (
     <div>
-      <h1>Aquí encuentras a tus dentistas favoritos</h1>
+      <h1>Here you will find your favorite dentists</h1>
       <div className="container card-grid ">
         {LocalFavs.length
           ? LocalFavs.map((dentistFav) => (
