@@ -19,6 +19,10 @@ code {
   cursor: pointer;
 }
 
+.favButton:focus{
+  border: 0.3px solid #bc544b;
+}
+
 h1{
   text-align: center;
 }
